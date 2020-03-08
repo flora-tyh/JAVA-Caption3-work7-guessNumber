@@ -1,16 +1,13 @@
 package com.thoughtworks;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
-public class RightAnswer implements MakeAnswer{
-    private List<Integer> rightAnswer;
-
-    public RightAnswer() {
-    }
+public class RightAnswer {
+    private List<Integer> rightAnswer = new ArrayList<>();
+    private static final Path ANSWER_PATH = Paths.get("answer.txt");
 
     @Override
     public String toString() {
@@ -29,24 +26,17 @@ public class RightAnswer implements MakeAnswer{
         return rightAnswer;
     }
 
-    public void setRightAnswer(List<Integer> rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-
     public void readAnswer() {
-        final int charToNum = 48;
-        File answerFile = new File("./src/main/java/com/thoughtworks/answer.txt");
-        try (FileInputStream fileInputStream = new FileInputStream(answerFile)){
-            int i;
-            while ((i = fileInputStream.read()) != -1) {
-                rightAnswer.add(i - charToNum);
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream(ANSWER_PATH.toString())) {
+            Objects.requireNonNull(inputStream);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String number = reader.readLine();
+            for (char i : number.toCharArray()) {
+                rightAnswer.add(i - '0');
             }
-
-        } catch (FileNotFoundException e) {
-            e.getMessage();
+        } catch (Exception e) {
             rightAnswer = makeAnswer();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

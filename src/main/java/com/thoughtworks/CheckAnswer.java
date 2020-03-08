@@ -3,6 +3,7 @@ package com.thoughtworks;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CheckAnswer {
     private List<Integer> rightAnswer;
@@ -16,10 +17,6 @@ public class CheckAnswer {
 
     public boolean isCorrect() {
         return isCorrect;
-    }
-
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
     }
 
     @Override
@@ -39,11 +36,11 @@ public class CheckAnswer {
         int wrongPositionCount = 0;
 
         for (int i = 0; i < inputAnswer.size(); i++) {
-            if (inputAnswer.get(i) == rightAnswer.get(i)) {
+            if (Objects.equals(inputAnswer.get(i), rightAnswer.get(i))) {
                 correctCount++;
             }
             for (int j = 0; j < rightAnswer.size(); j++) {
-                if (inputAnswer.get(i) == rightAnswer.get(j) && i != j) {
+                if (Objects.equals(inputAnswer.get(i), rightAnswer.get(j)) && i != j) {
                     wrongPositionCount++;
                 }
             }

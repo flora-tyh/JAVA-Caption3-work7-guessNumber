@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 public class InputAnswer {
     private ArrayList<Integer> inputAnswer;
+    private final static int answerLength = 4;
 
     @Override
     public String toString() {
@@ -18,46 +19,39 @@ public class InputAnswer {
         return "";
     }
 
-    public void setInputAnswer(ArrayList<Integer> inputAnswer) {
-        this.inputAnswer = inputAnswer;
-    }
-
     public List<Integer> getInputAnswer() throws WrongInputException {
         List<Integer> inputAnswer = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         String i = sc.next();
-        String[] numbers = i.split("");
-
-        if (isFourNumber(numbers)) {
-            int inputNumber = Integer.parseInt(i);
-            for (int n = 0; n < 4; n++) {
-                inputAnswer.add(inputNumber % 10);
-                inputNumber /= 10;
-            }
-            if (isNumberRepeat(inputAnswer)) {
-                throw new WrongInputException("Wrong input repeat");
-            }
-            Collections.reverse(inputAnswer);
-            return inputAnswer;
-        } else {
-            System.out.println(i);
+        for (char letter : i.toCharArray()) {
+            inputAnswer.add(letter - '0');
+        }
+        if (!isFourNumber(i)) {
             throw new WrongInputException("Wrong input is not four");
         }
+        if (isNumberRepeat(inputAnswer)) {
+            throw new WrongInputException("Wrong input repeat");
+        }
+        return inputAnswer;
     }
 
-    public boolean isFourNumber(String[] numbers) {
-        if (numbers.length != 4) {
-            return false;
-        } else {
-            String pattern = "\\d";
-            for (String number : numbers) {
-                boolean isNumber = Pattern.matches(pattern, number);
-                if (!isNumber) {
-                    return false;
-                };
-            }
-        }
-        return true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InputAnswer)) return false;
+        InputAnswer that = (InputAnswer) o;
+        return Objects.equals(inputAnswer, that.inputAnswer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inputAnswer);
+    }
+
+    public boolean isFourNumber(String numbers) {
+        String pattern = "\\d{" + answerLength + "}";
+        boolean isNumber = Pattern.matches(pattern, numbers);
+        return isNumber;
     }
 
     public boolean isNumberRepeat(List inputAnswer) {

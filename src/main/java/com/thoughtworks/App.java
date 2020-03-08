@@ -17,7 +17,6 @@ public class App {
 
     while (count < maxGuessCount) {
       try {
-        System.out.println(rightAnswer);
         InputAnswer inputAnswer = new InputAnswer();
         CheckAnswer checkAnswer = new CheckAnswer(inputAnswer.getInputAnswer(), rightAnswer.getRightAnswer());
         checkList.addCheckAnswer(checkAnswer);
@@ -26,11 +25,11 @@ public class App {
           break;
         }
         count++;
-      } catch (Exception e) {
+      } catch (WrongInputException e) {
         System.out.println(e.getMessage());
       }
     }
-    if (count == 6) {
+    if (count == maxGuessCount) {
       System.out.println("Unfortunately, you have no chance, the answer is " + rightAnswer + "!");
     }
   }
