@@ -27,13 +27,14 @@ public class RightAnswer {
     }
 
     public void readAnswer() {
+        final int CHAR_TO_INT = 48;
         ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(ANSWER_PATH.toString())) {
             Objects.requireNonNull(inputStream);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String number = reader.readLine();
             for (char i : number.toCharArray()) {
-                rightAnswer.add(i - '0');
+                rightAnswer.add(i - CHAR_TO_INT);
             }
         } catch (Exception e) {
             rightAnswer = makeAnswer();

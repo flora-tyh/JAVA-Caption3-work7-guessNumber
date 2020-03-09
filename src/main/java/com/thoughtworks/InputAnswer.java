@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class InputAnswer {
     private ArrayList<Integer> inputAnswer;
-    private final static int answerLength = 4;
+    private final static int ANSWER_LENGTH = 4;
 
     @Override
     public String toString() {
@@ -20,11 +20,12 @@ public class InputAnswer {
     }
 
     public List<Integer> getInputAnswer() throws WrongInputException {
+        final int CHAR_TO_INT = 48;
         List<Integer> inputAnswer = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         String i = sc.next();
         for (char letter : i.toCharArray()) {
-            inputAnswer.add(letter - '0');
+            inputAnswer.add(letter - CHAR_TO_INT);
         }
         if (!isFourNumber(i)) {
             throw new WrongInputException("Wrong input is not four");
@@ -49,7 +50,7 @@ public class InputAnswer {
     }
 
     public boolean isFourNumber(String numbers) {
-        String pattern = "\\d{" + answerLength + "}";
+        String pattern = "\\d{" + ANSWER_LENGTH + "}";
         boolean isNumber = Pattern.matches(pattern, numbers);
         return isNumber;
     }
